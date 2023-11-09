@@ -2,13 +2,13 @@ package main
 
 import (
 	"log"
+	"os"
 	"rental-games/config"
 	"rental-games/docs"
 	"rental-games/handler"
 
 	"github.com/labstack/echo/v4"
 	echoSwagger "github.com/swaggo/echo-swagger" // This is important
-	
 )
 
 // @title Rental Games API
@@ -43,6 +43,10 @@ func main() {
 	// Handle untuk menampilkan dokumentasi Swagger
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
+    e.POST("/users/topup_deposit", handler.DepositAmount, handler.AuthMiddleware)
+
 	// Mulai server
-	e.Start(":8080")
+	port := os.Getenv("PORT")
+	e.Logger.Fatal(e.Start(":" + port))
+
 }
