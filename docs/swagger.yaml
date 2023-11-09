@@ -1,0 +1,92 @@
+basePath: /api
+definitions:
+  entity.User:
+    properties:
+      deposit:
+        type: number
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is the API documentation for the Rental Games project.
+  title: Rental Games API
+  version: "1.0"
+paths:
+  /rent:
+    post:
+      consumes:
+      - application/json
+      description: Rent a PlayStation based on the provided parameters.
+      operationId: rent-console
+      parameters:
+      - description: Authorization Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: ID of the PlayStation to rent
+        in: formData
+        name: console_id
+        required: true
+        type: integer
+      - description: Rental date (YYYY-MM-DD)
+        in: formData
+        name: rental_date
+        required: true
+        type: string
+      - description: Return date (YYYY-MM-DD)
+        in: formData
+        name: return_date
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success response
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Rent a PlayStation
+  /users/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user with the provided details.
+      operationId: register-user
+      parameters:
+      - description: User object to be registered
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/entity.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Success response
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Register a new user
+swagger: "2.0"
